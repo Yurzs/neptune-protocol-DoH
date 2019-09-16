@@ -22,5 +22,5 @@ class Protocol:
             pass
         return web.Response(text='1234')
 
-    def start(self):
-        web.run_app(self.app)
+    async def start(self):
+        await web._run_app(self.app, port=self.connector.port, host=self.connector.host)
