@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='neptune_dnsoverhttps_protocol',  # How you named your package folder (MyLib)
     packages=find_packages(exclude=['*.tests', '*.tests.*', 'tests.*', 'tests']),  # Chose the same as "name"
-    version='2019.09.15.2221',  # Start with a small number and increase it with every change you make
+    version='2019.09.16.0907',  # Start with a small number and increase it with every change you make
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     long_description='''# Neptune DNS-over-HTTPS protocol
 This is a DNS over HTTPS protocol module for Neptune DNS server

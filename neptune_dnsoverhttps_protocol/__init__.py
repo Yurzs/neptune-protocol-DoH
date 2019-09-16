@@ -1,2 +1,2 @@
 from .connect import Connection
-from .protocol import *
+from .protocol import Protocol
