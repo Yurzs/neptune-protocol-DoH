@@ -3,7 +3,8 @@ from .protocol import Protocol
 
 class Connection:
 
-    def __init__(self, dispatcher_cls, loop, cert_path, key_path, prefix='dns-request', host='0.0.0.0', port=443, with_ssl=True):
+    def __init__(self, dispatcher_cls, server_connector, loop, cert_path, key_path, prefix='dns-request', host='0.0.0.0', port=443, with_ssl=True):
+        self.server_connector = server_connector
         self.dispatcher_cls = dispatcher_cls
         self.loop = loop
         self.cert_path = cert_path

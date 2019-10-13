@@ -3,6 +3,7 @@ import ssl
 import base64
 import json
 
+
 class Protocol:
     def __init__(self, connector):
         self.connector = connector
@@ -14,17 +15,20 @@ class Protocol:
 
     async def handle(self, request):
         dispatcher = self.connector.dispatcher_cls(loop=self.connector.loop)
-        if request.method == 'GET':
-            query = request.rel_url.query['dns']
-            decoded_query = base64.b64decode(query + '=' * (4 - len(query) % 4))
-            result = await dispatcher.handle(decoded_query)
-            return web.Response(text=base64.b64encode(result).decode('ascii'))
-        elif request.method == 'POST':
-            data = await request.json(loads=json.loads)
-            query = data['dns']
-            decoded_query = base64.b64decode(query + '=' * (4 - len(query) % 4))
-            result = await dispatcher.handle(decoded_query)
-            return web.Response(text=base64.b64encode(result).decode('ascii'))
+        try:
+            if request.method == 'GET':
+                query = request.rel_url.query['dns']
+                decoded_query = base64.b64decode(query + '=' * (4 - len(query) % 4))
+                result = await dispatcher.handle(decoded_query)
+                return web.Response(text=base64.b64encode(result).decode('ascii'))
+            elif request.method == 'POST':
+                data = await request.json(loads=json.loads)
+                query = data['dns']
+                decoded_query = base64.b64decode(query + '=' * (4 - len(query) % 4))
+                result = await dispatcher.handle(decoded_query)
+                return web.Response(text=base64.b64encode(result).decode('ascii'))
+        except KeyError:
+            return web.Response(text='Error')
         return web.Response(text='')
 
     async def start(self):
