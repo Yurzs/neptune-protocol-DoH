@@ -20,16 +20,16 @@ class Protocol:
                 query = request.rel_url.query['dns']
                 decoded_query = base64.b64decode(query + '=' * (4 - len(query) % 4))
                 result = await dispatcher.handle(decoded_query)
-                return web.Response(text=base64.b64encode(result).decode('ascii'), content_type='application/dns-message')
+                return web.Response(body=result, content_type='application/dns-message')
             elif request.method == 'POST':
                 data = await request.json(loads=json.loads)
                 query = data['dns']
                 decoded_query = base64.b64decode(query + '=' * (4 - len(query) % 4))
                 result = await dispatcher.handle(decoded_query)
-                return web.Response(text=base64.b64encode(result).decode('ascii'), content_type='application/dns-message')
+                return web.Response(body=result, content_type='application/dns-message')
         except KeyError:
             return web.Response(text='Error', content_type='application/dns-message')
-        return web.Response(text='', content_type='application/dns-message')
+        return web.Response(body='', content_type='application/dns-message', status=500)
 
     async def start(self):
         await web._run_app(self.app, port=self.connector.port, host=self.connector.host)
